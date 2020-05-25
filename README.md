@@ -1,2 +1,2 @@
-# asembles
+# assemblies
  Voting system by assemblies
