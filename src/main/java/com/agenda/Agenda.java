@@ -14,7 +14,7 @@ public class Agenda {
     private Long id;
     private String description;
     private String createAt;
-    private String endAt;
+    private int duration;
 
 
     public Agenda() {
@@ -52,20 +52,20 @@ public class Agenda {
 	}
 
 
-	public String getEndAt() {
-		return endAt;
+	public int getDuration() {
+		return duration;
 	}
 
 
-	public void setEndAt(String endAt) {
-		this.endAt = endAt;
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 
 
-	public Agenda(String description, String createAt,  String endAt) {
+	public Agenda(String description, String createAt, int duration) {
 	  this.description = description;
 	  this.createAt = createAt;
-	  this.endAt = endAt;
+	  this.duration = duration;
     }
 	
 }

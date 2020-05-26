@@ -20,7 +20,7 @@ public class AgendaApplicationTests {
 
 	@Test
 	public void addAgendaTest() {
-		String body = this.restTemplate.postForObject("http://localhost:8080/agenda/?description=test", "/", String.class);
+		String body = this.restTemplate.postForObject("/agenda/?description=test&duration=120", "/", String.class);
 		assertThat(body).isEqualTo("Agenda successfully registered");
 	}
 

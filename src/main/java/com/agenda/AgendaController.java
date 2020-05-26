@@ -26,9 +26,10 @@ public class AgendaController {
 	private AgendaRepository AgendaRepository;
 
 	@PostMapping(path = "/")
-	public @ResponseBody String add(@RequestParam String description) {		
+	public @ResponseBody String add(@RequestParam String description, @RequestParam int duration) {
 		Agenda agenda = new Agenda();
 		agenda.setDescription(description);
+		agenda.setDuration(duration);
 		AgendaRepository.save(agenda);
 		return "Agenda successfully registered";
 	}
