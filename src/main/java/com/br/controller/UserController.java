@@ -1,6 +1,7 @@
 
 package com.br.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.annotations.UpdateTimestamp;
@@ -34,5 +35,12 @@ public class UserController {
 		user.setName(name);
 		repository.save(user);
 		return "User successfully registered";
+	}
+	
+	@GetMapping(path = {"/{id}"})
+	public ResponseEntity<User> findById(@PathVariable long id){
+	   return repository.findById(id)
+	           .map(record -> ResponseEntity.ok().body(record))
+	           .orElse(ResponseEntity.notFound().build());
 	}
 }

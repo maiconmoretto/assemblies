@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.br.model.Agenda;
+import com.br.model.User;
 import com.br.repository.AgendaRepository;
 
 @Controller
@@ -35,5 +36,12 @@ public class AgendaController {
 		agenda.setDuration(duration);
 		repository.save(agenda);
 		return "Agenda successfully registered";
+	}
+	
+	@GetMapping(path = {"/{id}"})
+	public ResponseEntity<Agenda> findById(@PathVariable long id){
+	   return repository.findById(id)
+	           .map(record -> ResponseEntity.ok().body(record))
+	           .orElse(ResponseEntity.notFound().build());
 	}
 }
