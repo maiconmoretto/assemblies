@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `assemblies`.`voting_agenda` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_agenda` INT NOT NULL,
   `id_user` INT NOT NULL,
-  `created_at` VARCHAR(45) NULL,
+  `created_at`  DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `vote` VARCHAR(3) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `id_user_idx` (`id_user` ASC) ,
