@@ -1,4 +1,4 @@
-package com.agenda;
+package com.br.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,61 +13,49 @@ public class Agenda {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String description;
-    private String createAt;
+    private String createdAt;
     private int duration;
-
 
     public Agenda() {
     }
-       
-	
+       	
 	public Long getId() {
 		return id;
 	}
-
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-
 	public String getDescription() {
 		return description;
 	}
-
-
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-
-	public String getCreateAt() {
-		return createAt;
+	public String getCreatedAt() {
+		return createdAt;
 	}
 
-
-	public void setCreateAt(String createAt) {
-		this.createAt = createAt;
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
 	}
-
 
 	public int getDuration() {
 		return duration;
 	}
 
-
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 
-
-	public Agenda(String description, String createAt, int duration) {
+	public Agenda(String description, String createdAt, int duration) {
 	  this.description = description;
-	  this.createAt = createAt;
+	  this.createdAt = createdAt;
 	  this.duration = duration;
-    }
-	
+    }	
 }
 
 

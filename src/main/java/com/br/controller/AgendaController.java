@@ -1,5 +1,5 @@
 
-package com.agenda;
+package com.br.controller;
 
 import java.util.Optional;
 
@@ -18,19 +18,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.br.model.Agenda;
+import com.br.repository.AgendaRepository;
+
 @Controller
-@RequestMapping(path = "/agenda")
+@RequestMapping(path = "/api/v1/agenda")
 public class AgendaController {
 
 	@Autowired
-	private AgendaRepository AgendaRepository;
+	private AgendaRepository repository;
 
 	@PostMapping(path = "/")
 	public @ResponseBody String add(@RequestParam String description, @RequestParam int duration) {
 		Agenda agenda = new Agenda();
 		agenda.setDescription(description);
 		agenda.setDuration(duration);
-		AgendaRepository.save(agenda);
+		repository.save(agenda);
 		return "Agenda successfully registered";
 	}
 }

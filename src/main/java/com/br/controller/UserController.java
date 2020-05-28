@@ -1,5 +1,5 @@
 
-package com.user;
+package com.br.controller;
 
 import java.util.Optional;
 
@@ -18,18 +18,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.br.model.User;
+import com.br.repository.UserRepository;
+
 @Controller
-@RequestMapping(path = "/user")
+@RequestMapping(path = "/api/v1/user")
 public class UserController {
 
 	@Autowired
-	private UserRepository UserRepository;
+	private UserRepository repository;
 
 	@PostMapping(path = "/")
 	public @ResponseBody String add(@RequestParam String name) {
 		User user = new User();
 		user.setName(name);
-		UserRepository.save(user);
+		repository.save(user);
 		return "User successfully registered";
 	}
 }
