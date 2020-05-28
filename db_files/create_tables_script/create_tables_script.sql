@@ -40,7 +40,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `assemblies`.`voting_agenda`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `assemblies`.`voting_agenda` (
+CREATE TABLE IF NOT EXISTS `assemblies`.`voting` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_agenda` INT NOT NULL,
   `id_user` INT NOT NULL,
