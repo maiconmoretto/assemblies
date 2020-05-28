@@ -31,7 +31,7 @@ public class VotingController {
 
 	@Autowired
 	private VotingRepository votingRepository;
-	
+
 	@Autowired
 	private AgendaRepository agendaRepository;
 
@@ -39,20 +39,20 @@ public class VotingController {
 	private UserRepository userRepository;
 
 	@PostMapping(path = "/")
-	public @ResponseBody String add(@RequestParam int idAgenda, @RequestParam int idUser, String vote) {
+	public @ResponseBody ResponseEntity add(@RequestParam int idAgenda, @RequestParam int idUser, String vote) {
 		if (!userRepository.findById((long) idUser).isPresent()) {
-			  return "No User found with id " + idUser;
+			return new ResponseEntity<>("No User found with id " + idUser, HttpStatus.BAD_REQUEST);
 		}
-		
+
 		if (!agendaRepository.findById((long) idAgenda).isPresent()) {
-			  return "No Agenda found with id " + idAgenda;
-		}	
-		
+			return new ResponseEntity<>("No Agenda found with id " + idAgenda, HttpStatus.BAD_REQUEST);
+		}
+
 		Voting voting = new Voting();
 		voting.setIdAgenda(idAgenda);
 		voting.setIdUser(idUser);
 		voting.setVote(vote);
 		votingRepository.save(voting);
-		return "Voting successfully registered";
+		return new ResponseEntity<>("Voting successfully registered", HttpStatus.CREATED);
 	}
 }
