@@ -40,6 +40,11 @@ public class VotingController {
 
 	@PostMapping(path = "/")
 	public @ResponseBody ResponseEntity add(@RequestParam int idAgenda, @RequestParam int idUser, String vote) {
+		if(vote != "Sim" || vote != "Nao") {
+			return new ResponseEntity<>("The vote is only Sim or Não", HttpStatus.BAD_REQUEST);
+		}
+		
+		
 		if (!userRepository.findById((long) idUser).isPresent()) {
 			return new ResponseEntity<>("No User found with id " + idUser, HttpStatus.BAD_REQUEST);
 		}
@@ -47,6 +52,12 @@ public class VotingController {
 		if (!agendaRepository.findById((long) idAgenda).isPresent()) {
 			return new ResponseEntity<>("No Agenda found with id " + idAgenda, HttpStatus.BAD_REQUEST);
 		}
+		 Optional<Voting> userAlreadyVote = votingRepository.findByIdUser(idUser);
+		
+		if (userAlreadyVote.isPresent()) {
+			return new ResponseEntity<>("This user already vote", HttpStatus.BAD_REQUEST);
+		}
+		
 
 		Voting voting = new Voting();
 		voting.setIdAgenda(idAgenda);
