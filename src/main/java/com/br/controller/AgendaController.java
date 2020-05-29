@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,12 +31,12 @@ public class AgendaController {
 	private AgendaRepository repository;
 
 	@PostMapping(path = "/")
-	public @ResponseBody String add(@RequestParam String description, @RequestParam int duration) {
+	public @ResponseBody ResponseEntity add(@RequestParam String description, @RequestParam int duration) {
 		Agenda agenda = new Agenda();
 		agenda.setDescription(description);
 		agenda.setDuration(duration);
 		repository.save(agenda);
-		return "Agenda successfully registered";
+		return new ResponseEntity<>("Agenda successfully registere", HttpStatus.CREATED);
 	}
 	
 	@GetMapping(path = {"/{id}"})
