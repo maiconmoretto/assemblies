@@ -41,10 +41,6 @@ public class VotingController {
 
 	@PostMapping(path = "/")
 	public @ResponseBody ResponseEntity add(@RequestParam int idAgenda, @RequestParam int idUser, String vote) {
-		if (!vote.equals("Sim") || !vote.equals("Não")) {
-			return new ResponseEntity<>("The vote is only Sim or Não", HttpStatus.BAD_REQUEST);
-		}
-
 		if (!userRepository.findById((long) idUser).isPresent()) {
 			return new ResponseEntity<>("No User found with id " + idUser, HttpStatus.BAD_REQUEST);
 		}
@@ -52,6 +48,16 @@ public class VotingController {
 		if (!agendaRepository.findById((long) idAgenda).isPresent()) {
 			return new ResponseEntity<>("No Agenda found with id " + idAgenda, HttpStatus.BAD_REQUEST);
 		}
+		
+		Optional<Agenda> agendaOpen = agendaRepository.agendaOpen((long) idAgenda);
+		if (agendaOpen.isEmpty()) {
+			return new ResponseEntity<>("This Agenda is already close for vote", HttpStatus.BAD_REQUEST);
+		}
+		
+		if (!vote.equals("Sim") && !vote.equals("Não")) {
+			return new ResponseEntity<>("The vote is only Sim or Não", HttpStatus.BAD_REQUEST);
+		}
+	
 		Optional<Voting> userAlreadyVote = votingRepository.findByIdUser(idUser);
 
 		if (userAlreadyVote.isPresent()) {
@@ -65,7 +71,7 @@ public class VotingController {
 			agenda.setNao(agenda.getNao() + 1);
 		}
 		agendaRepository.save(agenda);
-
+	
 		Voting voting = new Voting();
 		voting.setIdAgenda(idAgenda);
 		voting.setIdUser(idUser);
