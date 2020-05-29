@@ -1,4 +1,4 @@
-package com.user;
+package com.br;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,15 +13,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class UserApplicationTests {
+public class AgendaApplicationTests {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
 
 	@Test
-	public void addUserTest() {
-		String body = this.restTemplate.postForObject("/user/?name=joao", "/", String.class);
-		assertThat(body).isEqualTo("User successfully registered");
+	public void addAgendaTest() {
+		String body = this.restTemplate.postForObject("/agenda/?description=test&duration=120", "/", String.class);
+		assertThat(body).isEqualTo("Agenda successfully registered");
 	}
 
 }
