@@ -11,31 +11,31 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserControllerTests {
+public class AgendaControllerTests {
 
 	@Autowired
 	private MockMvc mvc;
 
 	@Test
 	public void getById() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/api/v1/user/2").accept(MediaType.APPLICATION_JSON))
+		mvc.perform(MockMvcRequestBuilders.get("/api/v1/agenda/1").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
 	
 	@Test
 	public void getByIdWithoutId() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/api/v1/user/").accept(MediaType.APPLICATION_JSON))
+		mvc.perform(MockMvcRequestBuilders.get("/api/v1/agenda/").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isMethodNotAllowed());
 	}
 	
 	@Test
-	public void addWithoutName() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/api/v1/user/").accept(MediaType.APPLICATION_JSON))
+	public void addWithoutDescription() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.post("/api/v1/agenda/").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest());
 	}
 	@Test
 	public void add() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/api/v1/user/?name=joaquin").accept(MediaType.APPLICATION_JSON))
+		mvc.perform(MockMvcRequestBuilders.post("/api/v1/agenda/?description=new agenda&duration=10").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isCreated());
 	}
 

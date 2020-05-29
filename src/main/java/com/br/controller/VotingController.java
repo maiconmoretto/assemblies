@@ -40,7 +40,7 @@ public class VotingController {
 	private UserRepository userRepository;
 
 	@PostMapping(path = "/")
-	public @ResponseBody ResponseEntity add(@RequestParam int idAgenda, @RequestParam int idUser, String vote) {
+	public @ResponseBody ResponseEntity add(@RequestParam int idAgenda, @RequestParam int idUser, @RequestParam String vote) {
 		if (!userRepository.findById((long) idUser).isPresent()) {
 			return new ResponseEntity<>("No User found with id " + idUser, HttpStatus.BAD_REQUEST);
 		}
