@@ -22,6 +22,8 @@ CREATE TABLE IF NOT EXISTS `assemblies`.`agenda` (
   `description` VARCHAR(255) NULL,
   `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `duration` INT NULL,
+  `sim` INT NULL DEFAULT '0',
+  `nao` INT NULL DEFAULT '0',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.br.model.Voting;
+import com.br.model.Agenda;
 import com.br.model.User;
 import com.br.repository.AgendaRepository;
 import com.br.repository.UserRepository;
@@ -40,11 +41,10 @@ public class VotingController {
 
 	@PostMapping(path = "/")
 	public @ResponseBody ResponseEntity add(@RequestParam int idAgenda, @RequestParam int idUser, String vote) {
-		if(vote != "Sim" || vote != "Nao") {
+		if (!vote.equals("Sim") || !vote.equals("Não")) {
 			return new ResponseEntity<>("The vote is only Sim or Não", HttpStatus.BAD_REQUEST);
 		}
-		
-		
+
 		if (!userRepository.findById((long) idUser).isPresent()) {
 			return new ResponseEntity<>("No User found with id " + idUser, HttpStatus.BAD_REQUEST);
 		}
@@ -52,12 +52,19 @@ public class VotingController {
 		if (!agendaRepository.findById((long) idAgenda).isPresent()) {
 			return new ResponseEntity<>("No Agenda found with id " + idAgenda, HttpStatus.BAD_REQUEST);
 		}
-		 Optional<Voting> userAlreadyVote = votingRepository.findByIdUser(idUser);
-		
+		Optional<Voting> userAlreadyVote = votingRepository.findByIdUser(idUser);
+
 		if (userAlreadyVote.isPresent()) {
 			return new ResponseEntity<>("This user already vote", HttpStatus.BAD_REQUEST);
 		}
-		
+
+		Agenda agenda = agendaRepository.findById((long) idAgenda).get();
+		if (vote.equals("Sim")) {
+			agenda.setSim(agenda.getSim() + 1);
+		} else {
+			agenda.setNao(agenda.getNao() + 1);
+		}
+		agendaRepository.save(agenda);
 
 		Voting voting = new Voting();
 		voting.setIdAgenda(idAgenda);

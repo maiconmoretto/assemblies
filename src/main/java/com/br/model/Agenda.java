@@ -15,6 +15,8 @@ public class Agenda {
     private String description;
     private String createdAt;
     private int duration;
+    private int sim;
+    private int nao;
 
     public Agenda() {
     }
@@ -51,10 +53,28 @@ public class Agenda {
 		this.duration = duration;
 	}
 
-	public Agenda(String description, String createdAt, int duration) {
+	public int getSim() {
+		return sim;
+	}
+
+	public void setSim(int sim) {
+		this.sim = sim;
+	}
+
+	public int getNao() {
+		return nao;
+	}
+
+	public void setNao(int nao) {
+		this.nao = nao;
+	}
+
+	public Agenda(String description, String createdAt, int duration, int sim, int nao) {
 	  this.description = description;
 	  this.createdAt = createdAt;
 	  this.duration = duration;
+	  this.sim = sim;
+	  this.nao = nao;
     }	
 }
 
