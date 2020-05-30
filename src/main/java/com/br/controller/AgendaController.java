@@ -36,7 +36,7 @@ public class AgendaController {
 		agenda.setDescription(description);
 		agenda.setDuration(duration);
 		repository.save(agenda);
-		return new ResponseEntity<>("Agenda successfully registere", HttpStatus.CREATED);
+		return new ResponseEntity<>("Agenda successfully registered", HttpStatus.CREATED);
 	}
 	
 	@GetMapping(path = {"/{id}"})

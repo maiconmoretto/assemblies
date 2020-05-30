@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `assemblies`.`agenda` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `description` VARCHAR(255) NULL,
   `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  `duration` INT NULL,
+  `duration` INT(255) NULL,
   `sim` INT NULL DEFAULT '0',
   `nao` INT NULL DEFAULT '0',
   PRIMARY KEY (`id`))
@@ -34,7 +34,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `assemblies`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NULL,
-  `created_at` DATE NULL,
+  `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `assemblies`.`voting` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_agenda` INT NOT NULL,
   `id_user` INT NOT NULL,
-  `created_at`  DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `vote` VARCHAR(3) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `id_user_idx` (`id_user` ASC) ,
@@ -54,13 +54,11 @@ CREATE TABLE IF NOT EXISTS `assemblies`.`voting` (
   CONSTRAINT `id_agenda`
     FOREIGN KEY (`id_agenda`)
     REFERENCES `assemblies`.`agenda` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+	ON DELETE CASCADE,
   CONSTRAINT `id_user`
     FOREIGN KEY (`id_user`)
     REFERENCES `assemblies`.`user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+	ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 

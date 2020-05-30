@@ -1,5 +1,7 @@
 package com.br;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,9 @@ public class AgendaControllerTests {
 	private MockMvc mvc;
 
 	@Test
-	public void getById() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/api/v1/agenda/1").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
+	public void getByIdWithInvalidId() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/api/v1/agenda/0").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isNotFound());
 	}
 	
 	@Test
@@ -36,7 +38,8 @@ public class AgendaControllerTests {
 	@Test
 	public void add() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.post("/api/v1/agenda/?description=new agenda&duration=10").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isCreated());
+				.andExpect(status().isCreated())
+				.andExpect(content().string(containsString("Agenda successfully registered")));
 	}
 
 }

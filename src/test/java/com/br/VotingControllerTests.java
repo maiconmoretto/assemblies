@@ -1,5 +1,7 @@
 package com.br;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -15,47 +18,35 @@ public class VotingControllerTests {
 
 	@Autowired
 	private MockMvc mvc;
-	
-	@Test
-	public void idUser() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/api/v1/agenda/").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isBadRequest());
-	}
-	
-	@Test
-	public void addWithoutIdUser() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/api/v1/agenda/").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isBadRequest());
-	}
-	
+
 	@Test
 	public void addWithoutVote() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/api/v1/agenda/").accept(MediaType.APPLICATION_JSON))
+		mvc.perform(MockMvcRequestBuilders.post("/api/v1/voting/").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest());
 	}
-	
-	@Test
-	public void addWithVoteWrong() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/api/v1/agenda/?vote=abc").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isBadRequest());
-	}
-	
-	@Test
-	public void addWithIdUserWrong() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/api/v1/agenda/?idUser=9999999999999999999").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isBadRequest());
-	}
-	
-	@Test
-	public void addWithIdAgendaWrong() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/api/v1/agenda/?idAgenda=9999999999999999999").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isBadRequest());
-	}
-	
-//	@Test
-//	public void add() throws Exception {
-//		mvc.perform(MockMvcRequestBuilders.post("/api/v1/agenda/?description=new agenda&duration=10").accept(MediaType.APPLICATION_JSON))
-//				.andExpect(status().isCreated());
-//	}
 
+	@Test
+	public void addWithInvalidVote() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.post("/api/v1/voting/?vote=abc").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest());
+	}
+	
+	@Test
+	public void addWithNoExistIdUser() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.post("/api/v1/voting/?idAgenda=1&idUser=0&vote=Sim")
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest())
+				.andExpect(content().string(containsString("No User found with id 0")));
+	}
+	
+	@Test
+	public void addWithNoExistIdAgenda() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.post("/api/v1/voting/?idAgenda=0&idUser=2&vote=Sim")
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+	}
+	
+	@Test
+	public void addWithNoValidVote() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.post("/api/v1/voting/?idAgenda=1&idUser=2&vote=sim")
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+	}
 }
