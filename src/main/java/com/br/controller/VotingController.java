@@ -1,6 +1,7 @@
 
 package com.br.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.annotations.UpdateTimestamp;
@@ -40,7 +41,8 @@ public class VotingController {
 	private UserRepository userRepository;
 
 	@PostMapping(path = "/")
-	public @ResponseBody ResponseEntity add(@RequestParam int idAgenda, @RequestParam int idUser, @RequestParam String vote) {
+	public @ResponseBody ResponseEntity add(@RequestParam int idAgenda, @RequestParam int idUser,
+			@RequestParam String vote) {
 		if (!userRepository.findById((long) idUser).isPresent()) {
 			return new ResponseEntity<>("No User found with id " + idUser, HttpStatus.BAD_REQUEST);
 		}
@@ -48,16 +50,16 @@ public class VotingController {
 		if (!agendaRepository.findById((long) idAgenda).isPresent()) {
 			return new ResponseEntity<>("No Agenda found with id " + idAgenda, HttpStatus.BAD_REQUEST);
 		}
-		
+
 		Optional<Agenda> agendaOpen = agendaRepository.agendaOpen((long) idAgenda);
 		if (agendaOpen.isEmpty()) {
 			return new ResponseEntity<>("This Agenda is already close for vote", HttpStatus.BAD_REQUEST);
 		}
-		
+
 		if (!vote.equals("Sim") && !vote.equals("Não")) {
 			return new ResponseEntity<>("The vote is only Sim or Não", HttpStatus.BAD_REQUEST);
 		}
-	
+
 		Optional<Voting> userAlreadyVote = votingRepository.findByIdUser(idUser);
 
 		if (userAlreadyVote.isPresent()) {
@@ -71,7 +73,7 @@ public class VotingController {
 			agenda.setNao(agenda.getNao() + 1);
 		}
 		agendaRepository.save(agenda);
-	
+
 		Voting voting = new Voting();
 		voting.setIdAgenda(idAgenda);
 		voting.setIdUser(idUser);
@@ -79,4 +81,68 @@ public class VotingController {
 		votingRepository.save(voting);
 		return new ResponseEntity<>("Voting successfully registered", HttpStatus.CREATED);
 	}
+
+	@GetMapping(path = "/")
+	public List<Voting> findAll() {
+		return (List<Voting>) votingRepository.findAll();
+	}
+
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity delete(@PathVariable long id) {
+		votingRepository.deleteById(id);
+		return new ResponseEntity("Voting successfully deleted", HttpStatus.OK);
+	}
+
+	@GetMapping(path = { "/{id}" })
+	public ResponseEntity<Voting> findById(@PathVariable long id) {
+		return votingRepository.findById(id).map(record -> ResponseEntity.ok().body(record))
+				.orElse(ResponseEntity.notFound().build());
+	}
+
+	@PutMapping(path = { "/{id}" })
+	public @ResponseBody ResponseEntity add(@PathVariable long id, @RequestParam int idAgenda, @RequestParam int idUser,
+			@RequestParam String vote) {
+		if (!votingRepository.findById((long) id).isPresent()) {
+			return new ResponseEntity<>("No Voting found with id " + idUser, HttpStatus.BAD_REQUEST);
+		}
+		
+		if (!userRepository.findById((long) idUser).isPresent()) {
+			return new ResponseEntity<>("No User found with id " + idUser, HttpStatus.BAD_REQUEST);
+		}
+
+		if (!agendaRepository.findById((long) idAgenda).isPresent()) {
+			return new ResponseEntity<>("No Agenda found with id " + idAgenda, HttpStatus.BAD_REQUEST);
+		}
+
+		Optional<Agenda> agendaOpen = agendaRepository.agendaOpen((long) idAgenda);
+		if (agendaOpen.isEmpty()) {
+			return new ResponseEntity<>("This Agenda is already close for vote", HttpStatus.BAD_REQUEST);
+		}
+
+		if (!vote.equals("Sim") && !vote.equals("Não")) {
+			return new ResponseEntity<>("The vote is only Sim or Não", HttpStatus.BAD_REQUEST);
+		}
+
+		Voting votingOld = votingRepository.findById((long) id).get();
+		
+		Agenda agenda = agendaRepository.findById((long) idAgenda).get();
+		if (!vote.equals(votingOld.getVote())) {
+			if (vote.equals("Sim")) {
+				agenda.setSim(agenda.getSim() + 1);
+				agenda.setNao(agenda.getNao() - 1);
+			} else {
+				agenda.setSim(agenda.getSim() - 1);
+				agenda.setNao(agenda.getNao() + 1);
+			}
+		}
+		agendaRepository.save(agenda);
+
+		Voting voting = new Voting();
+		voting.setIdAgenda(idAgenda);
+		voting.setIdUser(idUser);
+		voting.setVote(vote);
+		votingRepository.save(voting);
+		return new ResponseEntity<>("Voting successfully updated", HttpStatus.CREATED);
+	}
+
 }

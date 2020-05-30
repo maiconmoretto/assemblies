@@ -4,6 +4,7 @@ package com.br.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.catalina.connector.Response;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,4 +45,28 @@ public class UserController {
 	           .map(record -> ResponseEntity.ok().body(record))
 	           .orElse(ResponseEntity.notFound().build());
 	}
+	
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity delete(@PathVariable long id) {
+		repository.deleteById(id);
+		return new ResponseEntity<>("User successfully deleted", HttpStatus.OK);
+	}
+	
+	@GetMapping(path = "/")
+	public List<User> findAll() {
+		return repository.findAll();
+	}
+	
+	@PutMapping(path = "/{id}")
+	public ResponseEntity update(@RequestParam long id, @RequestParam String name, @RequestBody String createdAt) {
+		return repository.findById(id).map(user -> {
+			user.setName(name);
+			user.setCreatedAt(createdAt);
+			repository.save(user);
+			return new ResponseEntity("User successfully updated", HttpStatus.CREATED);
+		}).orElseGet(() -> {
+			return new ResponseEntity("User do not updated", HttpStatus.CREATED);
+		});
+	}
+	
 }
