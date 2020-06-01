@@ -25,7 +25,7 @@ public class Voting implements Serializable{
 	String vote;
 
     public Voting() {
-    }
+    } 
 
 	public Integer getId() {
 		return id;

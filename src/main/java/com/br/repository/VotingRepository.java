@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.br.model.Voting;
-
+ 
 public interface VotingRepository extends CrudRepository<Voting, Integer> {
-	Optional<Voting> findByIdUser(int idUser);
+	Optional<Voting> findByIdUser(int idUser);  
 }

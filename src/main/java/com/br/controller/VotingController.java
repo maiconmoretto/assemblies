@@ -40,20 +40,17 @@ public class VotingController {
 
 	@PostMapping(path = "/api/v1/voting/")
 	public @ResponseBody ResponseEntity save(@RequestBody Voting voting) {
-		service.save(voting);
-		return new ResponseEntity<>("Voting successfully registered", HttpStatus.CREATED);
+		return service.save(voting);
 	}
 
 	@PutMapping(value = "/api/v1/voting/{id}")
 	public ResponseEntity<String> update(@RequestBody Voting voting) {
-		service.update(voting);
-		return new ResponseEntity<>("Voting successfully updated", HttpStatus.OK);
+		return service.update(voting);
 	}
 
 	@DeleteMapping(path = "/api/v1/voting/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable int id) {
-		service.deleteById(id);
-		return new ResponseEntity<>("Voting successfully deleted", HttpStatus.OK);
+		return service.deleteById(id);
 	}
 
 }
