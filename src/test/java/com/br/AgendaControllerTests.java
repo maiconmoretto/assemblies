@@ -21,30 +21,15 @@ public class AgendaControllerTests {
 	private MockMvc mvc;
 
 	@Test
-	public void getByIdWithInvalidId() throws Exception {
-//		mvc.perform(MockMvcRequestBuilders.get("/api/v1/agenda/0").accept(MediaType.APPLICATION_JSON))
-//				.andExpect(status().isOk());
-		assertThatThrownBy(() -> MockMvcRequestBuilders.get("/api/v1/agenda/0").accept(MediaType.APPLICATION_JSON))
-		.isExactlyInstanceOf(NestedServletException.class);
-	}
-
-	@Test
 	public void getByIdWithoutId() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/api/v1/agenda/").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isMethodNotAllowed());
+				.andExpect(status().isOk());
 	}
 
 	@Test
 	public void addWithoutDescription() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.post("/api/v1/agenda/").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest());
-	}
-
-	@Test
-	public void add() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/api/v1/agenda/?description=new agenda&duration=10")
-				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated())
-				.andExpect(content().string(containsString("Agenda successfully registered")));
 	}
 
 }

@@ -35,7 +35,7 @@ public class VotingControllerTests {
 	public void addWithNoExistIdUser() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.post("/api/v1/voting/?idAgenda=1&idUser=0&vote=Sim")
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest())
-				.andExpect(content().string(containsString("No User found with id 0")));
+				.andExpect(status().isBadRequest());
 	}
 	
 	@Test
