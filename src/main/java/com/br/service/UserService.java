@@ -3,6 +3,8 @@ package com.br.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.br.repository.UserRepository;
@@ -22,16 +24,19 @@ public class UserService {
 		return repository.findById(id).get();
 	}
 
-	public void save(User listElement) {
-		repository.save(listElement);
-	}
-
-	public void update(User user) {
+	public ResponseEntity<String> save(User user) {
 		repository.save(user);
+		return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);
 	}
 
-	public void deleteById(int id) {
+	public ResponseEntity<String> update(User user) {
+		repository.save(user);
+		return new ResponseEntity<>("User successfully updated", HttpStatus.OK);
+	}
+
+	public ResponseEntity<String> deleteById(int id) {
 		repository.deleteById(id);
+		return new ResponseEntity<>("User successfully deleted", HttpStatus.OK);
 	}
 
 }

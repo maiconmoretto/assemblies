@@ -37,20 +37,16 @@ public class UserController {
 
 	@PostMapping(path = "/api/v1/user/")
 	public @ResponseBody ResponseEntity save(@RequestBody User user) {
-		service.save(user);
-		return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);
+		return service.save(user);
 	}
 
 	@PutMapping(value = "/api/v1/user/{id}")
 	public ResponseEntity<String> update(@RequestBody User user) {
-		service.update(user);
-		return new ResponseEntity<>("User successfully updated", HttpStatus.OK);
+		return service.update(user);
 	}
 
 	@DeleteMapping(path = "/api/v1/user/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable int id) {
-		service.deleteById(id);
-		return new ResponseEntity<>("User successfully deleted", HttpStatus.OK);
+		return 	service.deleteById(id);		
 	}
-
 }

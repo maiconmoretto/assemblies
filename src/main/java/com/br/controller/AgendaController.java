@@ -37,20 +37,16 @@ public class AgendaController {
 
 	@PostMapping(path = "/api/v1/agenda/")
 	public @ResponseBody ResponseEntity save(@RequestBody Agenda agenda) {
-		service.save(agenda);
-		return new ResponseEntity<>("Agenda successfully registered", HttpStatus.CREATED);
+		return service.save(agenda);
 	}
 
 	@PutMapping(value = "/api/v1/agenda/{id}")
 	public ResponseEntity<String> update(@RequestBody Agenda agenda) {
-		service.update(agenda);
-		return new ResponseEntity<>("Agenda successfully updated", HttpStatus.OK);
+		return service.update(agenda);
 	}
 
 	@DeleteMapping(path = "/api/v1/agenda/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable int id) {
-		service.deleteById(id);
-		return new ResponseEntity<>("Agenda successfully deleted", HttpStatus.OK);
+		return service.deleteById(id);
 	}
-
 }
