@@ -1,31 +1,38 @@
 package com.br.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class Agenda {
+@Table(name = "agenda")
+public class Agenda implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String description;
-    private String createdAt;
-    private int duration;
-    private int sim;
-    private int nao;
-
+	@Id
+	@Column(name = "id")
+	int id;
+	@Column(name = "description")
+	String description;
+	@Column(name = "created_at")
+	String createdAt;
+	@Column(name = "duration")
+	int duration;
+	@Column(name = "sim")
+	int sim;
+	@Column(name = "nao")
+	int nao;
+	
     public Agenda() {
     }
        	
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -76,9 +83,5 @@ public class Agenda {
 	  this.sim = sim;
 	  this.nao = nao;
     }	
+
 }
-
-
-
-
-

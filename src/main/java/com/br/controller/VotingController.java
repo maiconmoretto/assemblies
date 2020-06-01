@@ -47,7 +47,7 @@ public class VotingController {
 			return new ResponseEntity<>("No User found with id " + idUser, HttpStatus.BAD_REQUEST);
 		}
 
-		if (!agendaRepository.findById((long) idAgenda).isPresent()) {
+		if (!agendaRepository.findById(idAgenda).isPresent()) {
 			return new ResponseEntity<>("No Agenda found with id " + idAgenda, HttpStatus.BAD_REQUEST);
 		}
 
@@ -66,7 +66,7 @@ public class VotingController {
 			return new ResponseEntity<>("This user already vote", HttpStatus.BAD_REQUEST);
 		}
 
-		Agenda agenda = agendaRepository.findById((long) idAgenda).get();
+		Agenda agenda = agendaRepository.findById(idAgenda).get();
 		if (vote.equals("Sim")) {
 			agenda.setSim(agenda.getSim() + 1);
 		} else {
@@ -110,7 +110,7 @@ public class VotingController {
 			return new ResponseEntity<>("No User found with id " + idUser, HttpStatus.BAD_REQUEST);
 		}
 
-		if (!agendaRepository.findById((long) idAgenda).isPresent()) {
+		if (!agendaRepository.findById(idAgenda).isPresent()) {
 			return new ResponseEntity<>("No Agenda found with id " + idAgenda, HttpStatus.BAD_REQUEST);
 		}
 
@@ -125,7 +125,7 @@ public class VotingController {
 
 		Voting votingOld = votingRepository.findById((long) id).get();
 		
-		Agenda agenda = agendaRepository.findById((long) idAgenda).get();
+		Agenda agenda = agendaRepository.findById(idAgenda).get();
 		if (!vote.equals(votingOld.getVote())) {
 			if (vote.equals("Sim")) {
 				agenda.setSim(agenda.getSim() + 1);

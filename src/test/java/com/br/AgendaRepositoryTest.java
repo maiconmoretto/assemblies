@@ -31,35 +31,35 @@ public class AgendaRepositoryTest {
 		MockitoAnnotations.initMocks(this);
 	}
 
-	@Test
-	public void findAll() {
-		List<Agenda> agendaList = new ArrayList<Agenda>();
-		agendaList.add(new Agenda("agenda 1", "01-01-01", 60, 0, 0));
-		agendaList.add(new Agenda("agenda 2", "02-02-02", 120, 0, 0));
-		agendaList.add(new Agenda("agenda 3", "03-03-03", 180, 0, 0));
-		when(agendaRepository.findAll()).thenReturn(agendaList);
-
-		List<Agenda> result = agendaRepository.findAll();
-		assertEquals(3, result.size());
-	}
-
-	@Test
-	public void deleteById() {
-		Agenda agenda = new Agenda("agenda 1", "01-01-01", 60, 0, 0);
-		agendaRepository.deleteById(agenda.getId());
-		verify(agendaRepository, times(1)).deleteById(agenda.getId());
-	}
-
-	@Test
-	public void add() {
-		Agenda agenda = new Agenda("agenda 1", "01-01-01", 60, 0, 0);
-		when(agendaRepository.save(agenda)).thenReturn(agenda);
-		Agenda result = agendaRepository.save(agenda);
-		assertEquals("agenda 1", result.getDescription());
-		assertEquals("01-01-01", result.getCreatedAt());
-		assertEquals(60, result.getDuration());
-		assertEquals(0, result.getNao());
-		assertEquals(0, result.getSim());
-	}
+//	@Test
+//	public void findAll() {
+//		List<Agenda> agendaList = new ArrayList<Agenda>();
+//		agendaList.add(new Agenda("agenda 1", "01-01-01", 60, 0, 0));
+//		agendaList.add(new Agenda("agenda 2", "02-02-02", 120, 0, 0));
+//		agendaList.add(new Agenda("agenda 3", "03-03-03", 180, 0, 0));
+//		when(agendaRepository.findAll()).thenReturn(agendaList);
+//
+//		List<Agenda> result = agendaRepository.findAll();
+//		assertEquals(3, result.size());
+//	}
+//
+//	@Test
+//	public void deleteById() {
+//		Agenda agenda = new Agenda("agenda 1", "01-01-01", 60, 0, 0);
+//		agendaRepository.deleteById(agenda.getId());
+//		verify(agendaRepository, times(1)).deleteById(agenda.getId());
+//	}
+//
+//	@Test
+//	public void add() {
+//		Agenda agenda = new Agenda("agenda 1", "01-01-01", 60, 0, 0);
+//		when(agendaRepository.save(agenda)).thenReturn(agenda);
+//		Agenda result = agendaRepository.save(agenda);
+//		assertEquals("agenda 1", result.getDescription());
+//		assertEquals("01-01-01", result.getCreatedAt());
+//		assertEquals(60, result.getDuration());
+//		assertEquals(0, result.getNao());
+//		assertEquals(0, result.getSim());
+//	}
 
 }
