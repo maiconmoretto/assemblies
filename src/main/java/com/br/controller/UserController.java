@@ -1,16 +1,10 @@
-
 package com.br.controller;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.apache.catalina.connector.Response;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,55 +12,45 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.br.model.User;
-import com.br.repository.UserRepository;
+import com.br.service.UserService;
 
-@Controller
-@RequestMapping(path = "/api/v1/user")
+@RestController
 public class UserController {
 
 	@Autowired
-	private UserRepository repository;
+	private UserService service;
 
-	@PostMapping(path = "/")
-	public @ResponseBody ResponseEntity add(@RequestParam String name) {
-		User user = new User();
-		user.setName(name);
-		repository.save(user);
+	@GetMapping("/api/v1/user")
+	public List<User> findAll() {
+		return service.findAll();
+	}
+
+	@GetMapping("/api/v1/user/{id}")
+	public User findById(@PathVariable int id) {
+		return service.findById(id);
+	}
+
+	@PostMapping(path = "/api/v1/user/")
+	public @ResponseBody ResponseEntity save(@RequestBody User user) {
+		service.save(user);
 		return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);
 	}
-	
-	@GetMapping(path = {"/{id}"})
-	public ResponseEntity<User> findById(@PathVariable long id){
-	   return repository.findById(id)
-	           .map(record -> ResponseEntity.ok().body(record))
-	           .orElse(ResponseEntity.notFound().build());
+
+	@PutMapping(value = "/api/v1/user/{id}")
+	public ResponseEntity<String> update(@RequestBody User user) {
+		service.update(user);
+		return new ResponseEntity<>("User successfully updated", HttpStatus.OK);
 	}
-	
-	@DeleteMapping(path = "/{id}")
-	public ResponseEntity delete(@PathVariable long id) {
-		repository.deleteById(id);
+
+	@DeleteMapping(path = "/api/v1/user/{id}")
+	public ResponseEntity<String> deleteById(@PathVariable int id) {
+		service.deleteById(id);
 		return new ResponseEntity<>("User successfully deleted", HttpStatus.OK);
 	}
-	
-	@GetMapping(path = "/")
-	public List<User> findAll() {
-		return repository.findAll();
-	}
-	
-	@PutMapping(path = "/{id}")
-	public ResponseEntity update(@RequestParam long id, @RequestParam String name, @RequestBody String createdAt) {
-		return repository.findById(id).map(user -> {
-			user.setName(name);
-			user.setCreatedAt(createdAt);
-			repository.save(user);
-			return new ResponseEntity("User successfully updated", HttpStatus.CREATED);
-		}).orElseGet(() -> {
-			return new ResponseEntity("User do not updated", HttpStatus.CREATED);
-		});
-	}
-	
+
 }

@@ -1,28 +1,32 @@
 package com.br.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class User {
+@Table(name = "user")
+public class User implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String name;
-    private String createdAt;
+	@Id
+	@Column(name = "id")
+	int id;
+	@Column(name = "name")
+	String name;
+	@Column(name = "created_at")
+	String createdAt;
 
-    public User() {
-    }
-       
-	public Long getId() {
+	public User() {
+	}
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -43,12 +47,7 @@ public class User {
 	}
 
 	public User(String name, String createdAt) {
-	  this.name = name;
-	  this.createdAt = createdAt;
-    }	
+		this.name = name;
+		this.createdAt = createdAt;
+	}
 }
-
-
-
-
-

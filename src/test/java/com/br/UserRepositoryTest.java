@@ -39,7 +39,7 @@ public class UserRepositoryTest {
 		userList.add(new User("user 3", "01-03-03"));
 		when(userRepository.findAll()).thenReturn(userList);
 
-		List<User> result = userRepository.findAll();
+		List<User> result = (List<User>) userRepository.findAll();
 		assertEquals(3, result.size());
 	}
 

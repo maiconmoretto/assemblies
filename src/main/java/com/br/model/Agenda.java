@@ -82,6 +82,5 @@ public class Agenda implements Serializable {
 	  this.duration = duration;
 	  this.sim = sim;
 	  this.nao = nao;
-    }	
-
+    }
 }
