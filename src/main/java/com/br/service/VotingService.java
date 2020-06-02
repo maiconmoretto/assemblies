@@ -2,24 +2,17 @@ package com.br.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.br.model.Agenda;
+import com.br.model.User;
 import com.br.model.Voting;
 import com.br.repository.AgendaRepository;
 import com.br.repository.UserRepository;
 import com.br.repository.VotingRepository;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class VotingService {
@@ -43,7 +36,19 @@ public class VotingService {
 	}
 
 	public ResponseEntity<String> save(Voting voting) {
-		if (!userRepository.findById(voting.getIdUser()).isPresent()) {
+		
+		Optional<User> user = userRepository.findById(voting.getIdUser());
+		
+		RestTemplate restTemplate = new RestTemplate(); 
+		String url = "https://user-info.herokuapp.com/users/" + user.get().getCpf() ; 
+		ResponseEntity<String> response
+		  = restTemplate.getForEntity(url, String.class); 
+		
+		if (response.getBody().equals("{\"status\":\"UNABLE_TO_VOTE\"}")) {
+			return new ResponseEntity<>("This user is UNABLE_TO_VOTE", HttpStatus.BAD_REQUEST);
+		}
+		
+		if (!userRepository.findById(voting.getIdAgenda()).isPresent()) {
 			return new ResponseEntity<>("No User found with id " + voting.getIdUser(), HttpStatus.BAD_REQUEST);
 		}
 
@@ -64,7 +69,7 @@ public class VotingService {
 
 		if (userAlreadyVote.isPresent()) {
 			return new ResponseEntity<>("This user already vote", HttpStatus.BAD_REQUEST);
-		}
+		}	
 		
 		Agenda agenda = agendaRepository.findById(voting.getIdAgenda()).get();
 		if (voting.getVote().equals("Sim")) {

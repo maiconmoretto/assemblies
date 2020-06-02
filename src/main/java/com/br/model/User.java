@@ -18,6 +18,8 @@ public class User implements Serializable {
 	String name;
 	@Column(name = "created_at")
 	String createdAt;
+	@Column(name = "cpf")
+	String cpf;
 
 	public User() {
 	}
@@ -46,8 +48,17 @@ public class User implements Serializable {
 		this.createdAt = createdAt;
 	}
 
-	public User(String name, String createdAt) {
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public User(String name, String createdAt, String cpf) {
 		this.name = name;
 		this.createdAt = createdAt;
+		this.cpf = cpf;
 	}
 }
