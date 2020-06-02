@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.br.repository.AgendaRepository;
 import com.br.model.Agenda;
+import com.br.model.User;
 
 @Service
 public class AgendaService {
@@ -31,6 +32,10 @@ public class AgendaService {
 	}
 
 	public ResponseEntity<String> update(Agenda agenda) {
+		Optional<Agenda> agendaExist = repository.findById(agenda.getId());
+		if (!agendaExist.isPresent()) {
+			return new ResponseEntity<>("Agenda does not exist", HttpStatus.BAD_REQUEST);
+		}
 		repository.save(agenda);
 		return new ResponseEntity<>("Agenda successfully updated", HttpStatus.OK);
 	}

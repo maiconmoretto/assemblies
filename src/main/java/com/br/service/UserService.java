@@ -32,6 +32,10 @@ public class UserService {
 	}
 
 	public ResponseEntity<String> update(User user) {
+		Optional<User> userExist = repository.findById(user.getId());
+		if (!userExist.isPresent()) {
+			return new ResponseEntity<>("User does not exist", HttpStatus.BAD_REQUEST);
+		}
 		repository.save(user);
 		return new ResponseEntity<>("User successfully updated", HttpStatus.OK);
 	}
