@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.br.AppException;
 import com.br.model.Agenda;
 import com.br.model.User;
 import com.br.model.Voting;
@@ -16,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class VotingService {
-	
+
 	@Autowired
 	private VotingRepository votingRepository;
 
@@ -26,6 +28,8 @@ public class VotingService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private UserService userService;
 
 	public List<Voting> findAll() {
 		return (List<Voting>) votingRepository.findAll();
@@ -36,41 +40,8 @@ public class VotingService {
 	}
 
 	public ResponseEntity<String> save(Voting voting) {
-		
-		Optional<User> user = userRepository.findById(voting.getIdUser());
-		
-		RestTemplate restTemplate = new RestTemplate(); 
-		String url = "https://user-info.herokuapp.com/users/" + user.get().getCpf() ; 
-		ResponseEntity<String> response
-		  = restTemplate.getForEntity(url, String.class); 
-		
-		if (response.getBody().equals("{\"status\":\"UNABLE_TO_VOTE\"}")) {
-			return new ResponseEntity<>("This user is UNABLE_TO_VOTE", HttpStatus.BAD_REQUEST);
-		}
-		
-		if (!userRepository.findById(voting.getIdAgenda()).isPresent()) {
-			return new ResponseEntity<>("No User found with id " + voting.getIdUser(), HttpStatus.BAD_REQUEST);
-		}
+		this.validate(voting);	
 
-		if (!agendaRepository.findById(voting.getIdAgenda()).isPresent()) {
-			return new ResponseEntity<>("No Agenda found with id " + voting.getIdAgenda(), HttpStatus.BAD_REQUEST);
-		}
-
-		Optional<Agenda> agendaOpen = agendaRepository.agendaOpen(voting.getIdAgenda());
-		if (agendaOpen.isEmpty()) {
-			return new ResponseEntity<>("This Agenda is already close for vote", HttpStatus.BAD_REQUEST);
-		}
-
-		if (!voting.getVote().equals("Sim") && !voting.getVote().equals("Não")) {
-			return new ResponseEntity<>("The vote is only Sim or Não", HttpStatus.BAD_REQUEST);
-		}
-
-		Optional<Voting> userAlreadyVote = votingRepository.findByIdUser(voting.getIdUser());
-
-		if (userAlreadyVote.isPresent()) {
-			return new ResponseEntity<>("This user already vote", HttpStatus.BAD_REQUEST);
-		}	
-		
 		Agenda agenda = agendaRepository.findById(voting.getIdAgenda()).get();
 		if (voting.getVote().equals("Sim")) {
 			agenda.setSim(agenda.getSim() + 1);
@@ -83,24 +54,37 @@ public class VotingService {
 		return new ResponseEntity<>("Voting successfully registered", HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<String> update(Voting voting) {
-		if (!userRepository.findById(voting.getIdUser()).isPresent()) {
-			return new ResponseEntity<>("No User found with id " + voting.getIdUser(), HttpStatus.BAD_REQUEST);
+	public void validate(Voting voting) {
+//		if (!userService.isUserAbleTovote(voting.getIdUser())) {
+//			throw new AppException(404, "This user is UNABLE_TO_VOTE");
+//		}
+
+		if (!userRepository.findById(voting.getIdAgenda()).isPresent()) {
+			throw new AppException(404, "No User found with id " + voting.getIdUser());
 		}
 
 		if (!agendaRepository.findById(voting.getIdAgenda()).isPresent()) {
-			return new ResponseEntity<>("No Agenda found with id " + voting.getIdAgenda(), HttpStatus.BAD_REQUEST);
+			throw new AppException(404, "No Agenda found with id " + voting.getIdAgenda());
 		}
 
 		Optional<Agenda> agendaOpen = agendaRepository.agendaOpen(voting.getIdAgenda());
 		if (agendaOpen.isEmpty()) {
-			return new ResponseEntity<>("This Agenda is already close for vote", HttpStatus.BAD_REQUEST);
+			throw new AppException(404, "This Agenda is already close for vote");
 		}
 
 		if (!voting.getVote().equals("Sim") && !voting.getVote().equals("Não")) {
-			return new ResponseEntity<>("The vote is only Sim or Não", HttpStatus.BAD_REQUEST);
+			throw new AppException(404, "The vote is only Sim or Não");
 		}
-		
+
+		Optional<Voting> userAlreadyVote = votingRepository.findByIdUser(voting.getIdUser());
+		if (userAlreadyVote.isPresent()) {
+			throw new AppException(404, "This user already vote");
+		}
+	}
+
+	public ResponseEntity<String> update(Voting voting) {
+		this.validate(voting);	
+
 		Optional<Voting> votingOld = votingRepository.findById(voting.getId());
 		Agenda agenda = agendaRepository.findById(voting.getIdAgenda()).get();
 		if (!voting.getVote().equals(votingOld.get().getVote())) {
