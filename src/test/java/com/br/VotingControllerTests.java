@@ -1,6 +1,8 @@
 package com.br;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -12,7 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.NestedServletException;
 
 import com.br.model.Voting;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,11 +61,6 @@ public class VotingControllerTests {
 		mvc.perform(MockMvcRequestBuilders.post("/api/v1/voting/?idAgenda=1&idVoting=2&vote=sim")
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
 	}
-	
-	@Before
-	public void setup() {
-		Voting voting = new Voting(1, 1, "Sim", "01-01-01 01:01:01");
-	}
 
 	@Test
 	public void findAll() throws Exception {
@@ -85,24 +85,12 @@ public class VotingControllerTests {
 	public void findByIdMethodNotAllowed() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.post("/api/v1/voting/1").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isMethodNotAllowed());
-	}
-	
-	@Test
-	public void findById() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/api/v1/voting/1").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
-	}
-	
+	}	
+
 	@Test
 	public void update() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.put("/api/v1/voting/").content(asJsonString(voting))
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-	}
-		
-	@Test
-	public void deleteById() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.delete("/api/v1/voting/1").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
 	}
 	
 	public static String asJsonString(final Object obj) {

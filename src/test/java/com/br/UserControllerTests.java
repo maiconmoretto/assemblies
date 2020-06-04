@@ -58,21 +58,9 @@ public class UserControllerTests {
 	}
 	
 	@Test
-	public void findById() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/api/v1/user/1").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
-	}
-	
-	@Test
 	public void update() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.put("/api/v1/user/").content(asJsonString(user))
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-	}
-		
-	@Test
-	public void deleteById() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.delete("/api/v1/user/1").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
 	}
 	
 	public static String asJsonString(final Object obj) {
@@ -84,6 +72,4 @@ public class UserControllerTests {
 	        throw new RuntimeException(e);
 	    }
 	}
-
-
 }

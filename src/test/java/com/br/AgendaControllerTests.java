@@ -55,23 +55,11 @@ public class AgendaControllerTests {
 	}
 	
 	@Test
-	public void findById() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/api/v1/agenda/1").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
-	}
-	
-	@Test
 	public void update() throws Exception {
 		Agenda agenda = new Agenda("agenda 1", "01-01-01", 60, 0, 0);
 		mvc.perform(MockMvcRequestBuilders.put("/api/v1/agenda/").content(asJsonString(agenda))
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 
-	}
-		
-	@Test
-	public void deleteById() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.delete("/api/v1/agenda/1").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
 	}
 	
 	public static String asJsonString(final Object obj) {
@@ -83,5 +71,4 @@ public class AgendaControllerTests {
 	        throw new RuntimeException(e);
 	    }
 	}
-
 }
