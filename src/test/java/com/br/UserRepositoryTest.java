@@ -65,7 +65,7 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	public void add() {				
+	public void save() {				
 		User user = new User("User 1", "01-01-01", "11111111111");
 		when(userRepository.save(user)).thenReturn(user);
 		User result = userRepository.save(user);
@@ -73,4 +73,24 @@ public class UserRepositoryTest {
 		assertEquals("01-01-01", result.getCreatedAt());
 		assertEquals("11111111111", result.getCpf());
 	}
+	
+	@Test
+	public void update() {				
+		User user = new User("User 1", "01-01-01", "11111111111");
+		when(userRepository.save(user)).thenReturn(user);
+		User result = userRepository.save(user);
+		assertEquals("User 1", result.getName());
+		assertEquals("01-01-01", result.getCreatedAt());
+		assertEquals("11111111111", result.getCpf());
+	}
+	
+	@Test
+	public void findById() {				
+		Optional<User> user = Optional.of(new User("User 1", "01-01-01", "11111111111"));
+		when(userRepository.findById(1)).thenReturn(user);
+		Optional<User> result = userRepository.findById(1);
+		assertEquals("User 1", result.get().getName());
+		assertEquals("01-01-01", result.get().getCreatedAt());
+		assertEquals("11111111111", result.get().getCpf());
+	}	
 }
