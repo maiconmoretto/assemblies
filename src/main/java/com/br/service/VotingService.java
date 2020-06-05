@@ -59,7 +59,7 @@ public class VotingService {
 			throw new AppException(404, "This user is UNABLE_TO_VOTE");
 		}
 
-		if (!userRepository.findById(voting.getIdAgenda()).isPresent()) {
+		if (!userRepository.findById(voting.getIdUser()).isPresent()) {
 			throw new AppException(404, "No User found with id " + voting.getIdUser());
 		}
 
