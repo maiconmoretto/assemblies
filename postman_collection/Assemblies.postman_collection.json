@@ -173,6 +173,35 @@
 					"response": []
 				},
 				{
+					"name": "GET ALL AGENDA CLOSED",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"type": "text",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/agenda/closed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"agenda",
+								"closed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "DELETE",
 					"request": {
 						"method": "DELETE",
@@ -712,6 +741,70 @@
 					"listen": "test",
 					"script": {
 						"id": "7620ba98-f608-42df-b5d8-731b2d6c09db",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "RabbitMQ",
+			"item": [
+				{
+					"name": "Producer",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"type": "text",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/rabbitmq/producer/?id=22",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"rabbitmq",
+								"producer",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "22"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "14261e65-5ceb-4889-b23e-fc4f0a96d197",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1206d2af-88a1-4592-9ced-5629452b3e11",
 						"type": "text/javascript",
 						"exec": [
 							""
