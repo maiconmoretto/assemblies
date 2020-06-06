@@ -27,8 +27,12 @@ public class UserService {
 	}
 
 	public ResponseEntity<String> save(User user) {
+		if (!this.isUserAbleTovote(user.getCpf())) {
+			return new ResponseEntity<>("User Unable to vote and can't be registered", HttpStatus.CREATED);
+		}
 		repository.save(user);
 		return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);
+
 	}
 
 	public ResponseEntity<String> update(User user) {
@@ -45,10 +49,9 @@ public class UserService {
 		return new ResponseEntity<>("User successfully deleted", HttpStatus.OK);
 	}
 
-	boolean isUserAbleTovote(int idUser) {
-		Optional<User> user = repository.findById(idUser);
+	boolean isUserAbleTovote(String cpf) {
 		RestTemplate restTemplate = new RestTemplate();
-		String url = "https://user-info.herokuapp.com/users/" + user.get().getCpf();
+		String url = "https://user-info.herokuapp.com/users/" + cpf;
 		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
 		if (response.getBody().equals("{\"status\":\"UNABLE_TO_VOTE\"}")) {
