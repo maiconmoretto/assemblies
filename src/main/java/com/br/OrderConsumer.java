@@ -11,7 +11,7 @@ import java.util.Map;
 public class OrderConsumer {
  
     @RabbitListener(queues = {"${queue.order.name}"})
-    public void receive(@Payload String order) {
-        System.out.println("Order: " + order);
+    public void receive(@Payload String agenda) {
+        System.out.println("Agenda: " + agenda);
     }
 }
