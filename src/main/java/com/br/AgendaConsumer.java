@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
  
 @Component
-public class OrderConsumer {
+public class AgendaConsumer {
  
     @RabbitListener(queues = {"${queue.order.name}"})
     public void receive(@Payload String agenda) {
-        System.out.println("Agenda: " + agenda);
+        System.out.println(agenda);
     }
 }

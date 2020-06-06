@@ -10,24 +10,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.model.Agenda;
 import com.br.repository.AgendaRepository;
-import com.br.OrderQueueSender;
+import com.br.AgendaQueueSender;
 
 @RestController
-@RequestMapping(value = "/rabbitmq/")
+@RequestMapping(value = "/api/v1/rabbitmq/")
 public class RabbitMQWebController {
 
 	@Autowired
-	OrderQueueSender orderQueueSender;
+	AgendaQueueSender agendaQueueSender;
 
 	@Autowired
 	AgendaRepository agendaRepository;
 
-	@GetMapping(value = "/api/v1/producer")
+	@GetMapping(value = "/producer")
 	public String producer(@RequestParam("id") int id) {
 		Optional<Agenda> agenda = agendaRepository.findById(id);
-		String result = "The resul of the agenda was: " + "sim : " + agenda.get().getSim() 
-				+ ", não : " + agenda.get().getNao();
-		orderQueueSender.send(result);
+		String result = "The resul of the agenda with id: " + id + " and description :" + agenda.get().getDescription()
+				+ " was: " + "sim : " + agenda.get().getSim() + ", não : " + agenda.get().getNao();
+		agendaQueueSender.send(result);
 
 		return "Message sent to the RabbitMQ Successfully";
 	}

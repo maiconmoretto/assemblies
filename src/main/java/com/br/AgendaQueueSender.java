@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
  
 @Component
-public class OrderQueueSender {
+public class AgendaQueueSender {
  
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -14,7 +14,7 @@ public class OrderQueueSender {
     @Autowired
     private Queue queue;
  
-    public void send(String order) {
-        rabbitTemplate.convertAndSend(this.queue.getName(), order);
+    public void send(String agenda) {
+        rabbitTemplate.convertAndSend(this.queue.getName(), agenda);
     }
 }
