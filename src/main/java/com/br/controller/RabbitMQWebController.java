@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.model.Agenda;
+import com.br.producer.AgendaQueueSender;
 import com.br.repository.AgendaRepository;
-import com.br.AgendaQueueSender;
 
 @RestController
 @RequestMapping(value = "/api/v1/rabbitmq/")

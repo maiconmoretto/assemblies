@@ -1,4 +1,4 @@
-package com.br;
+package com.br.producer;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
