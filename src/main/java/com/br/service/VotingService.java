@@ -40,7 +40,7 @@ public class VotingService {
 	}
 
 	public ResponseEntity<String> save(Voting voting) {
-		this.validate(voting);	
+		this.validate(voting);
 
 		Agenda agenda = agendaRepository.findById(voting.getIdAgenda()).get();
 		if (voting.getVote().equals("Sim")) {
@@ -65,21 +65,21 @@ public class VotingService {
 
 		Optional<Agenda> agendaOpen = agendaRepository.agendaOpen(voting.getIdAgenda());
 		if (agendaOpen.isEmpty()) {
-			throw new AppException(404, "This Agenda is already close for vote");
+			throw new AppException(404, "This agenda is already closed for voting");
 		}
 
 		if (!voting.getVote().equals("Sim") && !voting.getVote().equals("Não")) {
 			throw new AppException(404, "The vote is only Sim or Não");
 		}
-
-		Optional<Voting> userAlreadyVote = votingRepository.findByIdUser(voting.getIdUser());
+		
+		Optional<Voting> userAlreadyVote = votingRepository.userAlreadyVote(voting.getIdAgenda(), voting.getIdUser());
 		if (userAlreadyVote.isPresent()) {
-			throw new AppException(404, "This user already vote");
+			throw new AppException(404, "This user already voted");
 		}
 	}
 
 	public ResponseEntity<String> update(Voting voting) {
-		this.validate(voting);	
+		this.validate(voting);
 
 		Optional<Voting> votingOld = votingRepository.findById(voting.getId());
 		Agenda agenda = agendaRepository.findById(voting.getIdAgenda()).get();
