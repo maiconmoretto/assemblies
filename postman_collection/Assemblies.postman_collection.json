@@ -249,7 +249,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"roberta\",\n    \"cpf\": \"01411425022\"\n}",
+							"raw": "{\n    \"name\": \"Joao ninguem\",\n    \"cpf\": \"01411425022\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -754,7 +754,7 @@
 			"name": "RabbitMQ",
 			"item": [
 				{
-					"name": "Producer",
+					"name": "Producer by Id Agenda",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -784,6 +784,67 @@
 									"key": "id",
 									"value": "22"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consumer",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"type": "text",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/rabbitmq/consumer/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"rabbitmq",
+								"consumer",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Producer All agenda closed",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"type": "text",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/rabbitmq/producer/all/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"rabbitmq",
+								"producer",
+								"all",
+								""
 							]
 						}
 					},
