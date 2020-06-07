@@ -49,4 +49,8 @@ public class AgendaService {
 		return repository.agendaOpen(idAgenda);
 	}
 
+	public List<Agenda> agendasClosed() {
+		return repository.agendasClosed();
+	}
+
 }

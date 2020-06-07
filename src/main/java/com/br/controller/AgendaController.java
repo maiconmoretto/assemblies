@@ -49,4 +49,9 @@ public class AgendaController {
 	public ResponseEntity<String> deleteById(@PathVariable int id) {
 		return service.deleteById(id);
 	}
+	
+	@GetMapping("/api/v1/agendas-closed")
+	public List<Agenda> agendasClosed() {
+		return service.agendasClosed();
+	}
 }
