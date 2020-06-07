@@ -50,7 +50,7 @@ public class ScheduledTasks {
 	Consumer consumer;
 	
 	@Scheduled(fixedRate = 10000)
-	public void reportCurrentTime() throws IOException, TimeoutException {
+	public void verifyAllAgendasClosedAndCreateProducer() throws IOException, TimeoutException {
 	List<Agenda> agendasClosed = agendaService.agendasClosed();	
 	log.info("Task start {}", dateFormat.format(new Date()));
 		for(Agenda agenda: agendasClosed) {

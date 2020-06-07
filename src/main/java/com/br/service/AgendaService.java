@@ -27,6 +27,9 @@ public class AgendaService {
 	}
 
 	public ResponseEntity<String> save(Agenda agenda) {
+		if (agenda.getDuration() == 0) {
+			agenda.setDuration(60);
+		}
 		repository.save(agenda);
 		return new ResponseEntity<>("Agenda successfully registered", HttpStatus.CREATED);
 	}
