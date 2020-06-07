@@ -3,6 +3,7 @@
  ---
  
  <p>Used in this project:
+ <p>Java version: openjdk version "11.0.3" 
  <p>MySQL Server version: 5.7.29-0ubuntu0.18.04.1 (Ubuntu)
  <p> <b>dump from the database is in the folder:  </b>
   <p> <b> /db_files/Dump20200607  </b>
