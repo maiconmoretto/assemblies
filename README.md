@@ -9,6 +9,7 @@
   <p>or
   <p> <b>there is a script to create all the tables: </b>
     <b>db_files/create_schema_and_tables_script/create_schema_and_tables_script.sql </b>
+ <p>Docker version 19.03.11
  <p> <b>RabbitMQ with docker: </b>
 <p> <b>docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management </b>
 <p>font:
