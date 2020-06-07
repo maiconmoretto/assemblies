@@ -1,6 +1,19 @@
 # Assemblies
  Voting system by assemblies
+ ---
  
+ <p>Used in this project:
+ <p>MySQL Server version: 5.7.29-0ubuntu0.18.04.1 (Ubuntu)
+ <p> <b>dump from the database is in the folder:  </b>
+  <p> <b> /db_files/Dump20200607  </b>
+  <p>or
+  <p> <b>there is a script to create all the tables: </b>
+    <b>db_files/create_schema_and_tables_script/create_schema_and_tables_script.sql </b>
+ <p>Docker version 19.03.11
+ <p> <b>RabbitMQ with docker: </b>
+<p> <b>docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management </b>
+<p>font:
+ https://www.rabbitmq.com/download.html
  
 <p>Objective
 <p>In cooperatives, each member has one vote and decisions are taken in assemblies,
