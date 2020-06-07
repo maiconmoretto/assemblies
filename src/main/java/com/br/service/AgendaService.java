@@ -53,4 +53,8 @@ public class AgendaService {
 		return repository.agendasClosed();
 	}
 
+	public Agenda findAgendaClosedById(int id) {
+		return repository.findAgendaClosedById(id);
+	}
+
 }
