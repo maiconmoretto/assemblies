@@ -4,13 +4,13 @@
  
  <p>Used in this project:
  <p>MySQL Server version: 5.7.29-0ubuntu0.18.04.1 (Ubuntu)
- <p>dump from the database is in the folder:
-  <p> ``` /db_files/Dump20200607 ``` 
+ <p>* dump from the database is in the folder: *
+  <p> * /db_files/Dump20200607 * 
   <p>or
-  <p>there is a script to create all the tabled:
-   ```db_files/create_schema_and_tables_script/create_schema_and_tables_script.sql```
- <p>RabbitMQ with docker:
-<p>```docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management```
+  <p>*there is a script to create all the tabled:*
+   *db_files/create_schema_and_tables_script/create_schema_and_tables_script.sql*
+ <p>*RabbitMQ with docker:*
+<p>*docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management*
 <p>font:
  https://www.rabbitmq.com/download.html
  
