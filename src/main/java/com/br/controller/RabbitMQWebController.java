@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.br.model.Agenda;
 import com.br.service.AgendaService;
 import com.br.service.Sender;
+import com.br.service.Consumer;
 
 
 @RestController
@@ -22,23 +23,29 @@ public class RabbitMQWebController {
 
 	@Autowired
 	Sender sender;
+	
+	@Autowired
+	Consumer consumer;
 
 	@GetMapping(value = "/producer")
-	public String producer(@RequestParam("id") int id) throws IOException, TimeoutException {
+	public void producer(@RequestParam("id") int id) throws IOException, TimeoutException {
 		Agenda agenda = agendaService.findAgendaClosedById(id);
+		
 		sender.send(agenda);
-
-		return "Message sent to the RabbitMQ Successfully";
 	}
 	
 	@GetMapping(value = "/producer/all/")
-	public String producerAll() throws IOException, TimeoutException {
-		List<Agenda> agendasClosed = agendaService.agendasClosed();
+	public void producerAll() throws IOException, TimeoutException {
+		List<Agenda> agendasClosed = agendaService.agendasClosed();	
 		
 		for(Agenda agenda: agendasClosed) {
 			sender.send(agenda);
 		}			
-
-		return "Message sent to the RabbitMQ Successfully";
 	}
+	
+	@GetMapping(value = "/consumer")
+	public void producer() throws IOException, TimeoutException {		
+		consumer.consume();
+	}
+	
 }
