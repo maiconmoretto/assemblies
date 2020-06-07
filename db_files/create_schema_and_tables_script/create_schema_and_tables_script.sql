@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `assemblies`.`agenda` (
   `duration` INT(255) NULL,
   `sim` INT NULL DEFAULT '0',
   `nao` INT NULL DEFAULT '0',
+  `sent_to_messenger` boolean default false,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 

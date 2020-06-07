@@ -24,7 +24,9 @@ public class Agenda implements Serializable {
 	int sim;
 	@Column(name = "nao")
 	int nao;
-	
+	@Column(name = "sent_to_messager")
+	boolean sentToMessager;
+
     public Agenda() {
     }
        	
@@ -74,6 +76,16 @@ public class Agenda implements Serializable {
 
 	public void setNao(int nao) {
 		this.nao = nao;
+	}
+	
+	
+
+	public boolean isSentToMessager() {
+		return sentToMessager;
+	}
+
+	public void setSentToMessager(boolean sentToMessager) {
+		this.sentToMessager = sentToMessager;
 	}
 
 	public Agenda(String description, String createdAt, int duration, int sim, int nao) {

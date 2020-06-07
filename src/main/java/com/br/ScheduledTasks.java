@@ -55,6 +55,8 @@ public class ScheduledTasks {
 	log.info("Task start {}", dateFormat.format(new Date()));
 		for(Agenda agenda: agendasClosed) {
 			sender.send(agenda);
+			agenda.setSentToMessager(true);
+			agendaService.save(agenda);
 		}	
 	}	
 }

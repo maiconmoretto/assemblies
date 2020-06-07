@@ -90,7 +90,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"description\": \"test 15:25\",\n    \"duration\": 600,\n    \"sim\": 0,\n    \"nao\": 0\n}",
+							"raw": "{\n    \"id\": 1,\n    \"description\": \"votação do feriado \",\n    \"duration\": 1,\n    \"sim\": 0,\n    \"nao\": 0,\n    \"sentToMessager\": false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
