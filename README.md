@@ -4,7 +4,7 @@
  <p>Used in this project:
  <p>MySQL Server version: 5.7.29-0ubuntu0.18.04.1 (Ubuntu)
  <p>dump from the database is in the folder:
-  ```/db_files/Dump20200607```
+  <p> `/db_files/Dump20200607`
   <p>or
   <p>there is a script to create all the tabled:
    ```db_files/create_schema_and_tables_script/create_schema_and_tables_script.sql```
