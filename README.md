@@ -1,6 +1,8 @@
 # Assemblies
  Voting system by assemblies
  ---
+ <p>To run the project:
+ <p>java -jar target/asembles-0.0.1-SNAPSHOT.jar 
  
  <p>Used in this project:
  <p>Java version: openjdk version "11.0.3" 
