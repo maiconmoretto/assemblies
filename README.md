@@ -17,6 +17,8 @@
 <p> <b>docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management </b>
 <p>font:
  https://www.rabbitmq.com/download.html
+<p>Documentation Swagger:
+<p>http://localhost:8080/swagger-ui.html
  
 <p>Objective
 <p>In cooperatives, each member has one vote and decisions are taken in assemblies,
